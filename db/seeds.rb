@@ -5,3 +5,10 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Stage.create!([
+                {
+                  name: 'stage1',
+                  url: 'www.test-blizko.ru'
+                },
+              ])

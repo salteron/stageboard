@@ -1,0 +1,30 @@
+%h1 Listing stages
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Url
+      %th Branch
+      %th Deployed at
+      %th Comment
+      %th State
+      %th Locked
+
+  %tbody
+    - @stages.each do |stage|
+      %tr
+        %td= stage.name
+        %td= stage.url
+        %td= stage.branch
+        %td= stage.deployed_at
+        %td= stage.comment
+        %td= stage.state
+        %td= stage.locked
+        %td= link_to 'Show', stage
+        %td= link_to 'Edit', edit_stage_path(stage)
+        %td= link_to 'Destroy', stage, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Stage', new_stage_path
