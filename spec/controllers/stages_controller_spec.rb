@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe StagesController, type: :controller do
   describe 'GET index' do
-    let!(:stage) { Stage.create(name: 'name', url: 'url') }
+    let!(:stage) { Stage.create(url: 'url') }
     before { get :index }
     it { expect(assigns(:stages)).to eq Array.wrap(stage) }
   end
@@ -15,14 +15,13 @@ RSpec.describe StagesController, type: :controller do
   describe 'POST create' do
     context 'when valid args' do
       before do
-        post :create, stage: {name: 'name', url: 'url', comment: 'comment', locked: true, uuid: 'foo'}
+        post :create, stage: {url: 'url', comment: 'comment', locked: true, uuid: 'foo'}
       end
 
       it do
         stage = assigns(:stage)
         expect(stage).to_not be_new_record
         expect(flash[:notice]).to eq 'success'
-        expect(stage.name).to eq 'name'
         expect(stage.url).to eq 'url'
         expect(stage.comment).to eq 'comment'
         expect(stage.locked).to be_truthy
@@ -32,7 +31,7 @@ RSpec.describe StagesController, type: :controller do
     end
 
     context 'when invalid args' do
-      before { post :create, stage: {name: 'name'} }
+      before { post :create, stage: {foo: :bar} }
 
       it do
         stage = assigns(:stage)
@@ -44,7 +43,7 @@ RSpec.describe StagesController, type: :controller do
   end
 
   describe 'GET edit' do
-    let!(:stage) { Stage.create(name: 'name', url: 'url') }
+    let!(:stage) { Stage.create(url: 'url') }
 
     context 'when existing stage' do
       before { get :edit, id: stage.id }
@@ -58,7 +57,7 @@ RSpec.describe StagesController, type: :controller do
   end
 
   describe 'PUT update' do
-    let!(:stage) { Stage.create(name: 'name', url: 'url') }
+    let!(:stage) { Stage.create(url: 'url') }
 
     context 'when valid args' do
       before do
@@ -77,7 +76,7 @@ RSpec.describe StagesController, type: :controller do
     end
 
     context 'when invalid args' do
-      before { put :update, id: stage.id, stage: {name: ''} }
+      before { put :update, id: stage.id, stage: {url: ''} }
 
       it do
         stage = assigns(:stage)
@@ -94,13 +93,13 @@ RSpec.describe StagesController, type: :controller do
   end
 
   describe 'GET show' do
-    let!(:stage) { Stage.create(name: 'name', url: 'url') }
+    let!(:stage) { Stage.create(url: 'url') }
     before { get :show, id: stage.id }
     it { expect(assigns(:stage)).to eq stage }
   end
 
   describe 'DELETE destroy' do
-    let!(:stage) { Stage.create(name: 'name', url: 'url') }
+    let!(:stage) { Stage.create(url: 'url') }
 
     context 'when existing stage' do
       before { delete :destroy, id: stage.id }

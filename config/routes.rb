@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   root 'stages#index'
   resources :stages
 
+  post '/stages/:stage_uuid/deploys/recent', to: 'deploys#recent', as: :recent_stage_deploys
+  post '/stages/:stage_uuid/deploys/upcoming', to: 'deploys#upcoming', as: :upcoming_stage_deploys
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

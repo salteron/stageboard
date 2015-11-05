@@ -39,6 +39,6 @@ class StagesController < ApplicationController
   end
 
   def stage_params
-    params.require(:stage).permit(:name, :url, :comment, :locked)
+    params.require(:stage).permit(:url, :comment, :locked)
   end
 end

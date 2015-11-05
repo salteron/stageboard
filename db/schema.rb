@@ -11,20 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151102155424) do
+ActiveRecord::Schema.define(version: 20151105171258) do
 
-  create_table "stages", force: :cascade do |t|
-    t.string   "name",        limit: 100,                       null: false
-    t.string   "url",         limit: 100,                       null: false
-    t.string   "uuid",        limit: 36,                        null: false
-    t.string   "branch",      limit: 100
-    t.datetime "deployed_at"
-    t.text     "comment",     limit: 1000
-    t.string   "state",       limit: 50,   default: "deployed", null: false
-    t.boolean  "locked",                   default: false,      null: false
+  create_table "deploys", force: :cascade do |t|
+    t.string   "branch",       limit: 100, null: false
+    t.integer  "initiated_by"
+    t.datetime "finished_at"
+    t.integer  "stage_id",                 null: false
   end
 
-  add_index "stages", ["name"], name: "index_stages_on_name", unique: true
+  add_index "deploys", ["stage_id", "finished_at"], name: "index_deploys_on_stage_id_and_finished_at", unique: true
+
+  create_table "stages", force: :cascade do |t|
+    t.string  "url",     limit: 100,                  null: false
+    t.string  "uuid",    limit: 36,                   null: false
+    t.text    "comment", limit: 1000
+    t.boolean "locked",               default: false, null: false
+  end
+
   add_index "stages", ["url"], name: "index_stages_on_url", unique: true
   add_index "stages", ["uuid"], name: "index_stages_on_uuid", unique: true
 

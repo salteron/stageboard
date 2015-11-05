@@ -8,7 +8,6 @@
 
 Stage.create!([
                 {
-                  name: 'stage1',
                   url: 'www.test-blizko.ru'
                 },
               ])
