@@ -6,7 +6,13 @@ class Stage < ActiveRecord::Base
   has_one :recent_deploy, -> { where.not finished_at: nil }, class_name: 'Deploy', dependent: :destroy
   has_one :upcoming_deploy, -> { where finished_at: nil }, class_name: 'Deploy', dependent: :destroy
 
+  has_one :lock, dependent: :destroy
+
   def generate_uuid
     self.uuid = SecureRandom.uuid
+  end
+
+  def locked?(branch = nil)
+    lock.present? && lock.active?(branch)
   end
 end

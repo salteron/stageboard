@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151105171258) do
+ActiveRecord::Schema.define(version: 20151106165427) do
 
   create_table "deploys", force: :cascade do |t|
     t.string   "branch",       limit: 100, null: false
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(version: 20151105171258) do
   end
 
   add_index "deploys", ["stage_id", "finished_at"], name: "index_deploys_on_stage_id_and_finished_at", unique: true
+
+  create_table "locks", force: :cascade do |t|
+    t.integer  "stage_id",                     null: false
+    t.string   "initiated_by",     limit: 100, null: false
+    t.datetime "expired_at",                   null: false
+    t.string   "branch_whitelist", limit: 150
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
+  add_index "locks", ["stage_id"], name: "index_locks_on_stage_id", unique: true
 
   create_table "stages", force: :cascade do |t|
     t.string  "url",     limit: 100,                  null: false

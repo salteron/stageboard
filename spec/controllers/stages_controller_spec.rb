@@ -100,7 +100,7 @@ RSpec.describe StagesController, type: :controller do
       it { expect(Stage.count).to be 0 }
     end
 
-    context 'when existing stage' do
+    context 'when not existing stage' do
       before { delete :destroy, id: 0 }
       it { expect(Stage.count).to be 1 }
     end

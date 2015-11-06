@@ -42,6 +42,7 @@ end
 
 group :test do
   gem 'simplecov'
+  gem 'factory_girl_rails'
 end
 
 group :development do
