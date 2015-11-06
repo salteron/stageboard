@@ -92,12 +92,6 @@ RSpec.describe StagesController, type: :controller do
     end
   end
 
-  describe 'GET show' do
-    let!(:stage) { Stage.create(url: 'url') }
-    before { get :show, id: stage.id }
-    it { expect(assigns(:stage)).to eq stage }
-  end
-
   describe 'DELETE destroy' do
     let!(:stage) { Stage.create(url: 'url') }
 

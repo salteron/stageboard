@@ -1,5 +1,5 @@
 class StagesController < ApplicationController
-  before_action :find_stage, only: [:show, :edit, :update, :destroy]
+  before_action :find_stage, only: [:edit, :update, :destroy]
 
   def index
     @stages = Stage.all

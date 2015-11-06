@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
+  resources :locks
   root 'stages#index'
-  resources :stages
+  resources :stages, except: :show
 
   post '/stages/:stage_uuid/deploys/recent', to: 'deploys#recent', as: :recent_stage_deploys
   post '/stages/:stage_uuid/deploys/upcoming', to: 'deploys#upcoming', as: :upcoming_stage_deploys
