@@ -30,6 +30,26 @@ RSpec.describe DeploysController, type: :controller do
         end
       end
 
+      context 'when incomplete deploy params' do
+        before { post :recent, stage_uuid: stage.uuid, deploy: {initiated_by: :bar} }
+
+        it do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(stage.upcoming_deploy).to_not be_present
+          expect(stage.recent_deploy).to_not be_present
+        end
+      end
+
+      context 'when missing deploy params' do
+        before { post :recent, stage_uuid: stage.uuid, foo: {baz: :bar} }
+
+        it do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(stage.upcoming_deploy).to_not be_present
+          expect(stage.recent_deploy).to_not be_present
+        end
+      end
+
       context 'when deploy already exists' do
         let!(:deploy) { stage.create_recent_deploy(branch: :develop, finished_at: Time.now) }
 
@@ -80,6 +100,40 @@ RSpec.describe DeploysController, type: :controller do
           expect(response).to have_http_status(:unprocessable_entity)
           expect(stage.upcoming_deploy).to_not be_present
           expect(stage.recent_deploy).to_not be_present
+        end
+      end
+
+      context 'when incomplete deploy params' do
+        before { post :upcoming, stage_uuid: stage.uuid, deploy: {initiated_by: :bar} }
+
+        it do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(stage.upcoming_deploy).to_not be_present
+          expect(stage.recent_deploy).to_not be_present
+        end
+      end
+
+      context 'when missing deploy params' do
+        before { post :upcoming, stage_uuid: stage.uuid, foo: {baz: :bar} }
+
+        it do
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(stage.upcoming_deploy).to_not be_present
+          expect(stage.recent_deploy).to_not be_present
+        end
+      end
+
+      context 'when stage locked' do
+        before do
+          allow_any_instance_of(Stage).to receive(:locked?).with(any_args).and_return(true)
+          stage.create_recent_deploy(branch: :develop, finished_at: Time.now)
+          post :upcoming, stage_uuid: stage.uuid, deploy: { branch: :develop }
+        end
+
+        it do
+          expect(response).to have_http_status(:locked)
+          expect(stage.upcoming_deploy).to_not be_present
+          expect(stage.recent_deploy).to be_present
         end
       end
 
