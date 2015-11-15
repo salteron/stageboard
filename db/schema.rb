@@ -20,8 +20,6 @@ ActiveRecord::Schema.define(version: 20151106165427) do
     t.integer  "stage_id",                 null: false
   end
 
-  add_index "deploys", ["stage_id", "finished_at"], name: "index_deploys_on_stage_id_and_finished_at", unique: true
-
   create_table "locks", force: :cascade do |t|
     t.integer  "stage_id",                     null: false
     t.string   "initiated_by",     limit: 100, null: false

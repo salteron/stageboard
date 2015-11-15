@@ -1,5 +1,6 @@
 class Lock < ActiveRecord::Base
   validates :stage_id, :initiated_by, :expired_at, presence: true
+  validates :stage_id, uniqueness: true
 
   before_save :normalize_branch_whitelist
 
@@ -14,7 +15,7 @@ class Lock < ActiveRecord::Base
   end
 
   def whitelist
-    branch_whitelist.split(',')
+    branch_whitelist.to_s.split(',')
   end
 
   private
