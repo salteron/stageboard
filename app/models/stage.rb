@@ -3,8 +3,8 @@ class Stage < ActiveRecord::Base
 
   before_create :generate_uuid
 
-  has_one :recent_deploy, -> { where.not finished_at: nil }, class_name: 'Deploy', dependent: :destroy
-  has_one :upcoming_deploy, -> { where finished_at: nil }, class_name: 'Deploy', dependent: :destroy
+  has_one :recent_deploy, -> { where.not finished_at: nil }, class_name: 'Deploys::Recent', dependent: :destroy
+  has_one :upcoming_deploy, -> { where finished_at: nil }, class_name: 'Deploys::Upcoming', dependent: :destroy
 
   has_one :lock, dependent: :destroy
 

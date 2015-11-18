@@ -11,7 +11,7 @@ class DeploysController < ApplicationController
     return head :unprocessable_entity unless complete_params?
 
     deploy = @stage.recent_deploy || @stage.build_recent_deploy
-    deploy.assign_attributes(deploy_params.merge!(finished_at: Time.now.utc))
+    deploy.assign_attributes(deploy_params)
 
     head deploy.save ? :no_content : :unprocessable_entity
   end

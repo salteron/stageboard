@@ -51,7 +51,7 @@ RSpec.describe DeploysController, type: :controller do
       end
 
       context 'when deploy already exists' do
-        let!(:deploy) { stage.create_recent_deploy(branch: :develop, finished_at: Time.now) }
+        let!(:deploy) { stage.create_recent_deploy(branch: :develop) }
 
         before { post :recent, stage_uuid: stage.uuid, deploy: {branch: :master} }
 
@@ -126,7 +126,7 @@ RSpec.describe DeploysController, type: :controller do
       context 'when stage locked' do
         before do
           allow_any_instance_of(Stage).to receive(:locked?).with(any_args).and_return(true)
-          stage.create_recent_deploy(branch: :develop, finished_at: Time.now)
+          stage.create_recent_deploy(branch: :develop)
           post :upcoming, stage_uuid: stage.uuid, deploy: { branch: :develop }
         end
 
